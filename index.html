@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>İyi ki Doğdun Canım Askim ❤️</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+:root{
+  --rose:#d94f72;
+  --rose-deep:#a92f51;
+  --rose-soft:#f9dce5;
+  --cream:#fffaf7;
+  --ink:#2d2528;
+  --muted:#806f75;
+  --gold:#b98a4b;
+  --glass:rgba(255,255,255,.68);
+  --shadow:0 24px 70px rgba(78,35,48,.13);
+  --serif:'Cormorant Garamond',serif;
+  --sans:'DM Sans',sans-serif;
+  --script:'Dancing Script',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh; overflow-x:hidden; color:var(--ink); font-family:var(--sans);
+  background:
+    radial-gradient(circle at 8% 8%,rgba(240,175,195,.28),transparent 27%),
+    radial-gradient(circle at 92% 25%,rgba(239,215,180,.22),transparent 25%),
+    linear-gradient(180deg,#fffaf8 0%,#fff 42%,#fff8f9 100%);
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.22;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+}
+#hearts-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.6}
+.container{position:relative;z-index:1;width:min(100%,920px);margin:auto;padding:0 20px 100px}
+.hero{min-height:88vh;display:grid;place-items:center;text-align:center;padding:80px 0 55px;position:relative}
+.hero-inner{max-width:760px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--gold);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:600}
+.eyebrow:before,.eyebrow:after{content:"";width:38px;height:1px;background:currentColor;opacity:.55}
+.hero h1{
+  margin:20px auto 16px;font-family:var(--serif);font-size:clamp(3.5rem,11vw,7.2rem);
+  font-weight:500;line-height:.86;letter-spacing:-.045em;color:#3b292f;
+}
+.hero h1 em{display:block;color:var(--rose);font-family:var(--script);font-style:normal;font-size:.68em;line-height:1.05;margin-top:8px}
+.hero p{max-width:560px;margin:auto;color:var(--muted);font-size:clamp(.95rem,2.4vw,1.08rem);line-height:1.8}
+.scroll-cue{margin-top:48px;color:#aa9299;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase}
+.scroll-cue span{display:block;width:1px;height:48px;background:linear-gradient(var(--rose),transparent);margin:10px auto 0}
+.intro-note{font-family:var(--serif);font-size:clamp(1.35rem,3vw,1.8rem);text-align:center;line-height:1.45;color:#59484e;max-width:650px;margin:0 auto 55px}
+.intro-note strong{color:var(--rose);font-weight:600}
+.counter-section{
+  position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(255,241,245,.8));
+  border:1px solid rgba(255,255,255,.95);border-radius:34px;padding:34px 25px;margin:0 0 80px;
+  box-shadow:var(--shadow);backdrop-filter:blur(18px);
+}
+.counter-section:before{content:"♡";position:absolute;right:30px;top:-25px;font-family:var(--serif);font-size:150px;color:rgba(217,79,114,.06)}
+.counter-title{text-align:center;text-transform:uppercase;letter-spacing:.24em;font-size:.68rem;color:var(--gold);font-weight:600;margin-bottom:23px}
+.counter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.counter-item{padding:18px 8px;text-align:center;background:rgba(255,255,255,.7);border:1px solid #f5e4e8;border-radius:22px}
+.counter-num{display:block;font-family:var(--serif);font-size:clamp(1.8rem,5vw,2.6rem);font-weight:600;color:var(--rose);line-height:1}
+.counter-label{display:block;margin-top:7px;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#947f86}
+.section-heading{text-align:center;margin:90px 0 34px}
+.section-kicker{color:var(--gold);font-size:.66rem;letter-spacing:.25em;text-transform:uppercase;font-weight:600}
+.section-heading h2{font-family:var(--serif);font-size:clamp(2.6rem,7vw,4.5rem);font-weight:500;line-height:1;color:#392b30;margin-top:8px}
+.section-heading p{color:var(--muted);margin-top:10px;font-size:.9rem}
+.polaroid-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+.polaroid{
+  background:rgba(255,255,255,.88);padding:10px 10px 20px;border-radius:5px;
+  box-shadow:0 18px 42px rgba(70,36,46,.10);border:1px solid rgba(255,255,255,.9);
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease;position:relative;
+}
+.polaroid:nth-child(3n+1){transform:rotate(-1.1deg)}
+.polaroid:nth-child(3n+2){transform:rotate(.8deg)}
+.polaroid:nth-child(3n){transform:rotate(-.35deg)}
+.polaroid:hover{transform:translateY(-8px) rotate(0);box-shadow:0 28px 60px rgba(70,36,46,.17)}
+.polaroid-img-wrapper{
+  width:100%;
+  height:420px;
+  overflow:hidden;
+  background:#f5edef;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.polaroid-img-wrapper img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+  transition:transform .7s ease;
+}
+.polaroid-img-wrapper:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 75%,rgba(30,10,18,.12));pointer-events:none}
+.polaroid-img-wrapper img{width:100%;height:auto;max-height:720px;display:block;object-fit:contain;background:#f7f1f2;transition:transform .7s ease}
+.polaroid:hover img{transform:scale(1.025)}
+.polaroid-caption{margin:16px 8px 0;text-align:center;font-family:var(--script);font-size:clamp(1.35rem,3vw,1.65rem);line-height:1.15;color:#49383e}
+.polaroid-date{display:block;text-align:center;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:#9b858c;margin-top:8px}
+.timeline{position:relative;max-width:720px;margin:0 auto}
+.timeline:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,#e7bdc9 10%,#e7bdc9 90%,transparent)}
+.memory{width:50%;padding:0 34px 52px;position:relative}
+.memory:nth-child(odd){margin-left:0;text-align:right}
+.memory:nth-child(even){margin-left:50%;text-align:left}
+.memory:after{content:"";position:absolute;top:7px;width:10px;height:10px;border:2px solid var(--rose);background:#fff;border-radius:50%;box-shadow:0 0 0 6px rgba(217,79,114,.08)}
+.memory:nth-child(odd):after{right:-6px}.memory:nth-child(even):after{left:-6px}
+.memory-date{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.memory h3{font-family:var(--serif);font-size:1.8rem;font-weight:600;margin:5px 0;color:#3d2e34}
+.memory p{font-size:.9rem;line-height:1.7;color:var(--muted)}
+.letter-card{
+  position:relative;margin:70px auto 55px;max-width:780px;padding:clamp(35px,7vw,62px);
+  background:#fffdfb;border:1px solid #f1e2e5;box-shadow:var(--shadow);
+  border-radius:3px;overflow:hidden;
+}
+.letter-card:before{content:"“";position:absolute;top:-38px;left:20px;font-family:var(--serif);font-size:190px;color:rgba(217,79,114,.08);line-height:1}
+.letter-card h3{font-family:var(--script);font-size:2.6rem;color:var(--rose);margin-bottom:20px}.letter-card p{
+  font-family:var(--sans);
+  font-size:1.02rem;
+  font-weight:400;
+  color:#514349;
+  line-height:1.85;
+  letter-spacing:.01em;
+}white-space:pre-line}
+.letter-signature{text-align:right;font-family:var(--script);font-size:1.9rem;color:var(--rose);margin-top:25px}
+.final-card{text-align:center;padding:85px 20px 35px}
+.final-card .mini-heart{font-size:2rem;color:var(--rose);margin-bottom:10px}
+.final-card h2{font-family:var(--serif);font-size:clamp(3rem,8vw,5.2rem);font-weight:500;line-height:.95}
+.final-card p{color:var(--muted);margin:15px auto 28px;max-width:500px}
+.btn-celebrate{
+  border:0;color:#fff;background:linear-gradient(135deg,#e86b8a,#b93459);padding:17px 30px;
+  border-radius:100px;font-family:var(--sans);font-size:.86rem;font-weight:600;letter-spacing:.04em;
+  box-shadow:0 16px 34px rgba(185,52,89,.28);cursor:pointer;transition:.3s;
+}
+.btn-celebrate:hover{transform:translateY(-3px);box-shadow:0 21px 42px rgba(185,52,89,.34)}
+.music-btn{
+  position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));width:50px;height:50px;border:1px solid #f0dce2;
+  border-radius:50%;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);box-shadow:0 10px 28px rgba(50,20,30,.14);
+  z-index:99;font-size:1.05rem;cursor:pointer
+}
+.music-btn.playing{animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.modal{display:none;position:fixed;inset:0;background:rgba(31,13,19,.68);backdrop-filter:blur(10px);z-index:100;align-items:center;justify-content:center;padding:18px}
+.modal.active{display:flex}
+.modal-content{background:#fffaf9;width:min(92vw,460px);padding:42px 28px;border-radius:5px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.25);animation:pop .45s cubic-bezier(.2,.8,.2,1)}
+.modal-content h4{font-family:var(--script);font-size:3rem;color:var(--rose);line-height:1}
+.modal-content p{font-family:var(--serif);font-size:1.2rem;color:#59484e;line-height:1.6;margin-top:16px}
+.modal-close{margin-top:25px;border:1px solid #eddce1;background:#fff;padding:11px 24px;border-radius:100px;cursor:pointer}
+@keyframes pop{from{opacity:0;transform:translateY(15px) scale(.96)}to{opacity:1;transform:none}}
+.photo-modal-content{position:relative;width:min(94vw,1000px);max-height:94vh;display:flex;align-items:center;justify-content:center}
+.photo-modal-content img{max-width:100%;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:4px;box-shadow:0 25px 80px rgba(0,0,0,.4)}
+.photo-close{position:absolute;right:-7px;top:-17px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;font-size:27px;cursor:pointer;z-index:2}
+@media(max-width:650px){
+  .container{padding:0 13px 80px}.hero{min-height:82vh;padding:65px 5px 40px}
+  .hero h1{font-size:clamp(3.25rem,17vw,5rem)}
+  .counter-section{border-radius:25px;padding:25px 10px;margin-bottom:55px}.counter-grid{gap:6px}.counter-item{padding:15px 3px;border-radius:17px}
+  .counter-num{font-size:1.55rem}.counter-label{font-size:.55rem;letter-spacing:.08em}
+  .section-heading{margin:65px 0 24px}.polaroid-gallery{grid-template-columns:1fr;gap:24px}
+  .polaroid{padding:7px 7px 17px}.polaroid-img-wrapper img{max-height:none}
+  .timeline:before{left:9px}.memory,.memory:nth-child(even),.memory:nth-child(odd){width:100%;margin-left:0;text-align:left;padding-left:36px;padding-right:8px}
+  .memory:after,.memory:nth-child(odd):after,.memory:nth-child(even):after{left:4px;right:auto}
+  .letter-card{margin-top:55px;padding:34px 22px}.letter-card p{font-size:1.06rem}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+  <!-- Arka plan animasyon alanı -->
+  <canvas id="hearts-canvas"></canvas>
+
+  <!-- Müzik (İsteğe bağlı mp3 dosyası ekleyin) -->
+  <audio id="bg-audio" loop>
+    <source src="music.mp3" type="audio/mp3">
+  </audio>
+  <button class="music-btn" id="musicToggle" title="Müziği Başlat / Durdur">🎵</button>
+
+  <div class="container">
+    
+    <!-- Giriş Bölümü -->
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">Sana özel bir hikâye</div>
+        <h1>İyi ki doğdun<em>canım aşkım Eslem</em></h1>
+        <p>Bu sayfadaki her fotoğraf, her tarih ve her kelime bizim hikâyemizden küçük bir parça.</p>
+        <div class="scroll-cue">Hikâyemize doğru<span></span></div>
+      </div>
+    </header>
+    <p class="intro-note">“Bazı insanlar hayatımıza girer ve <strong>hayatımın anlamı</strong> olur.”</p>
+
+  <!-- Sayaç Bölümü -->
+<section class="counter-section">
+  <div class="counter-title">İlk Günümüzden Bugüne</div>
+  <div class="counter-grid">
+    <div class="counter-item">
+      <span class="counter-num" id="days">0</span>
+      <span class="counter-label">Gün</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num" id="hours">0</span>
+      <span class="counter-label">Saat</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num" id="minutes">0</span>
+      <span class="counter-label">Dakika</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num" id="seconds">0</span>
+      <span class="counter-label">Saniye</span>
+    </div>
+  </div>
+</section>
+
+    <!-- Fotoğraf Galerisi -->
+    <div class="section-heading">
+      <div class="section-kicker">Bizden kalanlar</div>
+      <h2>En Güzel Anlarımız</h2>
+      <p>Birlikte biriktirdiğimiz küçük ama unutulmaz anlar.</p>
+    </div>
+    <div class="polaroid-gallery">
+      
+            <!-- Fotoğraf 1 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/XmjrUB.jpeg" alt="Birlikte Yürüyüş">
+        </div>
+        <div class="polaroid-caption">Gözlerime bile bakamayacak kadar utanıyodun.</div>
+        <span class="polaroid-date">24 Aralık 2025</span>
+      </div>
+
+      <!-- Fotoğraf 2 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <!-- img/foto1.jpg gibi kendi fotoğraf dosya yolunuzu verin -->
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/rB10aNSE8k_D.jpeg" alt="İlk Buluşma">
+        </div>
+        <div class="polaroid-caption">O ilk kahve ve hiç bitmesini istemediğim sohbetimiz</div>
+        <span class="polaroid-date">7 Ocak 2026</span>
+      </div>
+
+      <!-- Fotoğraf 3 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/u9bWy.jpeg" alt="Birlikte Yürüyüş">
+        </div>
+        <div class="polaroid-caption">Balıma ÇOKKK gizli sır vermiştim</div>
+        <span class="polaroid-date">8 Ocak 2026</span>
+      </div>
+
+      <!-- Fotoğraf 4 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/jIls3.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Dünyanın en güzel gülüşü.</div>
+        <span class="polaroid-date">28 Ocak 2025</span>
+      </div>
+
+      <!-- Fotoğraf 5 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/lJ9Lt6.jpeg" alt="Birlikte Yürüyüş">
+        </div>
+        <div class="polaroid-caption">Sevgililer gününün anlam kazandığı an .</div>
+        <span class="polaroid-date">14 Şubat 2026</span>
+      </div>
+
+      <!-- Fotoğraf 6 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/jwX3vhpQzNeB.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">İlk Bayramımız</div>
+        <span class="polaroid-date">22 Mart 2026</span>
+      </div>
+
+         <!-- Fotoğraf 7 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/2bSMYO-.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Bugün herşey yolundayken yan yana oluruz</div>
+        <span class="polaroid-date">15 Nisan 2026</span>
+      </div>
+
+
+        <!-- Fotoğraf 8 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/2ANFdrPnfoT.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Yarın işler ters gittiğindede sırt sırta oluruz</div>
+        <span class="polaroid-date">20 Mayıs 2026</span>
+      </div>
+
+       <!-- Fotoğraf 9 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/2b4crPjL.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Bugün çiğköfte yeriz</div>
+        
+      </div>
+
+       <!-- Fotoğraf 10 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/yoKHk9.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Yarın en güzel mekanda yeriz</div>
+        
+      </div>
+
+      <!-- Fotoğraf 11 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/JWlmMea.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Bugün ufak çiçek alırsın</div>
+        
+      </div>
+
+      <!-- Fotoğraf 12 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/8nHB9oMLti.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Yarın en güzel çiçeği alırsın</div>
+        
+      </div>
+
+      <!-- Fotoğraf 13 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/nwyAOWfj71Z.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Ve ben her koşulda senin yanında olurum</div>
+        
+      </div>
+
+      <!-- Fotoğraf 14 -->
+      <div class="polaroid">
+        <div class="polaroid-img-wrapper">
+          <img loading="lazy" decoding="async" src="https://r.resimlink.com/-k3mWdEYq.jpeg" alt="Kahkaha">
+        </div>
+        <div class="polaroid-caption">Çünkü olunabilecek güzel bi yer daha yok</div>
+        
+      </div>
+
+
+
+
+
+    </div>
+
+    <div class="section-heading">
+      <div class="section-kicker">Bizim hikâyemiz</div>
+      <h2>Küçük Bir Zaman Yolculuğu</h2>
+      <p>Her tarih, ayrı bir anı. Her anı, ayrı bir gülümseme.</p>
+    </div>
+
+    <section class="timeline">
+      <article class="memory">
+        <span class="memory-date">08 Aralık 2025</span>
+        <h3>Ve hikâyemiz başladı.</h3>
+        <p>Birlikte geçen zamanın artık sadece takvimde değil, kalbimde de bir karşılığı vardı.</p>
+      </article>
+      <article class="memory">
+        <span class="memory-date">24 Aralık 2025</span>
+        <h3>İlk güzel anılardan biri.</h3>
+        <p>Gözlerime bile bakamayacak kadar utandığın o güzel an…</p>
+      </article>
+      <article class="memory">
+        <span class="memory-date">07 Ocak 2026</span>
+        <h3>O ilk kahve.</h3>
+        <p>Hiç bitmesini istemediğim sohbetlerden biri daha o gün başladı.</p>
+      </article>
+      <article class="memory">
+        <span class="memory-date">20 Mayıs 2026</span>
+        <h3>İş görüşmesi</h3>
+        <p>Bana verdiğin desteği en çok hissettiğim an.</p>
+      </article>
+    </section>
+
+    <!-- Mektup Bölümü -->
+<section class="letter-card">
+  <h3>Canım Askimmmm,</h3>
+
+  <p>
+    Bazen bir insana verilen değeri kelimelerle anlatmak zor oluyor, zaten pek yazamam, sadece içimden geçeni söylemek istiyorum.
+    <br><br>
+    Canım aşkım, bu sene bana gelen en güzel hediye sensin. İyi ki o kursa gelmişim, seni tanımışım, "iyi ki" dediğim kararımdır. Seninle ufak bakışmalarımız, ilk gün seni eve bırakmak için bahane uydurmam. Her şey çok güzeldi.
+    <br><br>
+    Birlikte güldüğümüz, sustuğumuz, gezdiğimiz, bazen hiçbir şey yapmadan yan yana olduğumuz bütün anlar benim için çok kıymetli. Seninle hayatıma renk geldi, neşe ve mutluluk geldi.
+    <br><br>
+    Yanında her zaman evimdeymişim gibi hissediyorum, her an hayatımın en güzel anılarından birine dönüşüyor. Yeni yaşında yüzünden gülümsemenin, güzelliklerin ve hayatından benim hiç eksik olmamasını diliyorum. Daha yaşayacağımız çok hikaye, biriktireceğimiz çok anı var.
+    <br><br>
+    İyi ki hayatımdasın, iyi ki yollarımız birleşmiş ve iyi ki sensin bal yanaklım
+  </p>
+
+  <div class="letter-signature">Seni Çok Seven Lülükün ❤️</div>
+</section>
+
+    <section class="final-card">
+      <div class="mini-heart">♡</div>
+      <h2>Hikâyemiz<br>devam ediyor...</h2>
+      <p>Ve bence en güzel kısmı daha yazılmadı.</p>
+    <!-- İnteraktif Sürpriz Butonu -->
+    <div class="surprise-box">
+      <button class="btn-celebrate" id="celebrateBtn">
+        <span>Bana Tıkla</span> 🎁
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- Fotoğrafı tam ekran görüntüleme -->
+  <div class="modal" id="photoModal" aria-hidden="true">
+    <div class="photo-modal-content">
+      <button class="photo-close" id="photoClose" aria-label="Fotoğrafı kapat">×</button>
+      <img id="photoModalImg" src="" alt="Büyütülmüş fotoğraf">
+    </div>
+  </div>
+
+  <!-- Sürpriz Popup Modalı -->
+  <div class="modal" id="surpriseModal">
+    <div class="modal-content">
+      <h4>İyi ki Varsın!</h4>
+      <p style="color: #666; margin-top: 10px; font-size: 0.95rem;">
+        Hayatımın en güzel hikayesi seninle başladı. Doğum günün kutlu olsun bitanemmm!
+      </p>
+      <button class="modal-close" id="modalClose">Kapat ❤️</button>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       1. İLİŞKİ SAYAÇ TARİHİ AYARI
+       (Yıl, Ay İndeksi (0=Ocak, 1=Şubat.. 9=Ekim), Gün, Saat, Dk)
+       ========================================================= */
+    const startDate = new Date(2025, 11, 8, 22, 20, 0);
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('days').innerText = days;
+        document.getElementById('hours').innerText = hours;
+        document.getElementById('minutes').innerText = minutes;
+        document.getElementById('seconds').innerText = seconds;
+      }
+    }
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    /* =========================================================
+       2. ARKA PLAN UÇAN KALPLER ANİMASYONU (Hafif ve Performanslı)
+       ========================================================= */
+    const canvas = document.getElementById('hearts-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const hearts = [];
+    class Heart {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + Math.random() * 20;
+        this.size = Math.random() * 12 + 8;
+        this.speedY = Math.random() * 0.8 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.4 + 0.1;
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -20) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = '#ff758c';
+        ctx.font = `${this.size}px serif`;
+        ctx.fillText('❤️', this.x, this.y);
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 20; i++) {
+      hearts.push(new Heart());
+    }
+
+    function animateHearts() {
+      ctx.clearRect(0, 0, width, height);
+      hearts.forEach(h => {
+        h.update();
+        h.draw();
+      });
+      requestAnimationFrame(animateHearts);
+    }
+    animateHearts();
+
+    /* =========================================================
+       3. SÜRPRİZ BUTONU & KONFETİ EFEKTİ
+       ========================================================= */
+    const btn = document.getElementById('celebrateBtn');
+    const modal = document.getElementById('surpriseModal');
+    const modalClose = document.getElementById('modalClose');
+
+    btn.addEventListener('click', () => {
+      // Çift taraflı konfeti patlaması
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      setTimeout(() => {
+        modal.classList.add('active');
+      }, 400);
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        modal.classList.remove('active');
+        closePhoto();
+      }
+    });
+
+
+    /* 5. FOTOĞRAF BÜYÜTME */
+    const photoModal = document.getElementById('photoModal');
+    const photoModalImg = document.getElementById('photoModalImg');
+    const photoClose = document.getElementById('photoClose');
+
+    document.querySelectorAll('.polaroid-img-wrapper img').forEach(img => {
+      img.addEventListener('click', () => {
+        photoModalImg.src = img.src;
+        photoModalImg.alt = img.alt || 'Fotoğraf';
+        photoModal.classList.add('active');
+        photoModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closePhoto() {
+      photoModal.classList.remove('active');
+      photoModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    photoClose.addEventListener('click', closePhoto);
+    photoModal.addEventListener('click', e => {
+      if (e.target === photoModal) closePhoto();
+    });
+
+    /* =========================================================
+       4. ARKA PLAN MÜZİĞİ KONTROLÜ
+       ========================================================= */
+    const audio = document.getElementById('bg-audio');
+    const musicBtn = document.getElementById('musicToggle');
+    let isPlaying = false;
+
+    musicBtn.addEventListener('click', () => {
+      if (!isPlaying) {
+        audio.play().then(() => {
+          isPlaying = true;
+          musicBtn.classList.add('playing');
+          musicBtn.innerText = '⏸️';
+        }).catch(err => {
+          console.log('Müzik çalınamadı (dosya yolu eksik olabilir):', err);
+        });
+      } else {
+        audio.pause();
+        isPlaying = false;
+        musicBtn.classList.remove('playing');
+        musicBtn.innerText = '🎵';
+      }
+    });
+  </script>
+</body>
+</html>
